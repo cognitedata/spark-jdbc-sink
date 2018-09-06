@@ -13,8 +13,6 @@ assemblyMergeStrategy in assembly := {
     oldStrategy(x)
 }
 
-resolvers += Resolver.mavenLocal
-
 lazy val root = (project in file("."))
   .settings(
     organization := "com.cognite.spark",
@@ -30,7 +28,13 @@ lazy val root = (project in file("."))
       "org.apache.spark" %% "spark-sql" % sparkVersion % "provided"
         exclude("org.glassfish.hk2.external", "javax.inject"),
       "org.eclipse.jetty" % "jetty-servlet" % "9.3.20.v20170531" % "provided"
-    )
+    ),
+    publishTo :=
+      Some("Sonatype Nexus Repository Manager" at
+        "https://repository.dev.cognite.ai/repository/cognite/"),
+    credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
+    publishMavenStyle := true,
+    crossScalaVersions := Seq("2.11.12"),
   )
 
 // Don't include Scala in the assembly, we should use the version included in Spark instead

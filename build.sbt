@@ -20,7 +20,7 @@ lazy val root = (project in file("."))
     organization := "com.cognite.spark",
     name := "spark-jdbc-sink",
     assemblyJarName in assembly := "spark-jdbc-sink-with-dependencies.jar",
-    version := "0.0.2-SNAPSHOT",
+    version := "0.0.2",
     scalaVersion := "2.11.12",
     libraryDependencies ++= Seq(
       "org.wso2.carbon.metrics" % "org.wso2.carbon.metrics.jdbc.reporter" % "2.3.7",

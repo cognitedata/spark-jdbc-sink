@@ -19,11 +19,13 @@ package org.apache.spark.metrics.sink
 import java.util.{Locale, Properties}
 import java.util.concurrent.TimeUnit
 
-import com.codahale.metrics.{Metric, MetricFilter, MetricRegistry}
+import com.codahale.metrics.{Counter, Metric, MetricFilter, MetricRegistry}
 import org.apache.commons.dbcp2.BasicDataSource
 import org.apache.spark.SecurityManager
 import org.apache.spark.sql.execution.datasources.jdbc.DriverRegistry
 import org.wso2.carbon.metrics.jdbc.reporter.JdbcReporter
+
+import scala.collection._
 
 class JdbcSink(val properties: Properties, val registry: MetricRegistry,
                securityManager: SecurityManager) extends Sink {
@@ -68,13 +70,26 @@ class JdbcSink(val properties: Properties, val registry: MetricRegistry,
   user.foreach(dataSource.setUsername)
   password.foreach(dataSource.setPassword)
 
+  val counterCache: concurrent.Map[String, Long] = concurrent.TrieMap.empty[String, Long]
   val reporter: JdbcReporter = {
     val builder = JdbcReporter.forRegistry(registry)
       .convertDurationsTo(TimeUnit.MILLISECONDS)
       .convertRatesTo(TimeUnit.SECONDS)
     for (f <- filter) {
       builder.filter(new MetricFilter {
-        override def matches(name: String, metric: Metric): Boolean = name.contains(f)
+        override def matches(name: String, metric: Metric): Boolean = {
+          lazy val hasChanged = metric match {
+            case counter: Counter =>
+              // The code below has a race-condition, however we use the filter
+              // just to propagate less data to the JDBC sink, so we are fine.
+              val currentCount = counterCache.get(name)
+              counterCache.put(name, counter.getCount)
+              !currentCount.contains(counter.getCount)
+            case _ => true
+          }
+
+          name.contains(f) && hasChanged
+        }
       })
     }
     builder.build(sourceName, dataSource)

@@ -26,11 +26,11 @@ podTemplate(label: label,
             stage('Build') {
                 sh('sbt package')
             }
-            if (env.BRANCH_NAME == 'master') {
+            //if (env.BRANCH_NAME == 'master') {
                 stage('Deploy') {
                     sh('sbt publish')
                 }
-            }
+            //}
         }
     }
 }

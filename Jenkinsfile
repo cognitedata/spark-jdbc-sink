@@ -2,7 +2,7 @@ def label = "spark-jdbc-sink-${UUID.randomUUID().toString().substring(0, 5)}"
 
 podTemplate(label: label,
             containers: [containerTemplate(name: 'sbt',
-                                           image: 'eu.gcr.io/cognitedata/openjdk8-sbt:2018-06-22-c73da5c',
+                                           image: 'eu.gcr.io/cognitedata/openjdk-sbt:jdk8-2020-03-20-3631d83',
                                            resourceRequestCpu: '100m',
                                            resourceLimitCpu: '2000m',
                                            resourceRequestMemory: '3000Mi',

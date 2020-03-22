@@ -1,4 +1,4 @@
-val sparkVersion = "2.3.0"
+val sparkVersion = "2.4.4"
 
 assemblyMergeStrategy in assembly := {
   case PathList("javax", "servlet", xs @ _*) => MergeStrategy.last
@@ -29,7 +29,7 @@ lazy val root = (project in file("."))
     name := "spark-jdbc-sink",
     assemblyJarName in assembly := "spark-jdbc-sink-with-dependencies.jar",
     version := "0.0.3",
-    scalaVersion := "2.11.12",
+    scalaVersion := "2.12.10",
     libraryDependencies ++= Seq(
       "org.wso2.carbon.metrics" % "org.wso2.carbon.metrics.jdbc.reporter" % "2.3.7",
       "org.apache.commons" % "commons-dbcp2" % "2.1.1",
@@ -39,7 +39,7 @@ lazy val root = (project in file("."))
         exclude("org.glassfish.hk2.external", "javax.inject"),
       "org.eclipse.jetty" % "jetty-servlet" % "9.3.20.v20170531" % "provided"
     ),
-    crossScalaVersions := Seq("2.11.12"),
+    crossScalaVersions := Seq("2.12.10"),
   )
 
 // Don't include Scala in the assembly, we should use the version included in Spark instead

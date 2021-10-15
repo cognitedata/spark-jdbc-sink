@@ -4,6 +4,7 @@ A Spark metrics sink that uses the JDBC reporter from
 [WSO2 Carbon Metrics](https://github.com/wso2/carbon-metrics) to write
 metrics to databases using JDBC.
 
+
 ## Usage
 
 Configure the sink using Spark's `metrics.properties`.

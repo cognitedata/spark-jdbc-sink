@@ -18,6 +18,7 @@ podTemplate(label: label,
                 checkout(scm)
             }
         }
+        // Comment to trigger CI Jenkins
         container('sbt') {
             stage('Install SBT config') {
                 sh('mkdir -p /root/.sbt/1.0 && cp /sbt-credentials/credentials.sbt /root/.sbt/1.0/credentials.sbt')

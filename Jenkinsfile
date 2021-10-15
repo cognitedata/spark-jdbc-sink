@@ -22,6 +22,7 @@ podTemplate(label: label,
         container('sbt') {
             stage('Install SBT config') {
                 sh('mkdir -p /root/.sbt/1.0 && cp /sbt-credentials/credentials.sbt /root/.sbt/1.0/credentials.sbt')
+                sh('ls /root/.sbt/1.0/credentials.sbt')
                 sh('cp /sbt-credentials/repositories /root/.sbt/')
             }
             stage('Build') {

@@ -21,6 +21,8 @@ Here's an example using all available configuration options:
 *.sink.jdbc.name=MyMetrics
 ```
 
+## Example
+
 Example database schemas for common databases are included in the
 [carbon-metrics](https://github.com/wso2/carbon-metrics/tree/master/features/org.wso2.carbon.metrics.jdbc.core.feature/resources/sql)
 repository.

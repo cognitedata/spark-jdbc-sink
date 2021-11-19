@@ -1,0 +1,17 @@
+name: CI
+
+on: ["push"]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: olafurpg/setup-scala@v13
+      - name: Build JAR file
+        run: sbt package
+      - name: Deploy JAR
+        if: github.ref == 'refs/heads/master'
+        run: sbt publish

@@ -39,6 +39,7 @@ lazy val root = (project in file("."))
         exclude("org.glassfish.hk2.external", "javax.inject"),
       "org.eclipse.jetty" % "jetty-servlet" % "9.3.20.v20170531" % "provided"
     ),
+    crossScalaVersions := Seq("2.12.15"),
   )
 
 // Don't include Scala in the assembly, we should use the version included in Spark instead

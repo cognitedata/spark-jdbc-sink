@@ -1,6 +1,6 @@
 val sparkVersion = "3.2.0"
 
-assemblyMergeStrategy in assembly := {
+assembly / assemblyMergeStrategy := {
   case PathList("javax", "servlet", xs @ _*) => MergeStrategy.last
   case PathList("javax", "activation", xs @ _*) => MergeStrategy.last
   case PathList("org", "apache", xs @ _*) => MergeStrategy.first
@@ -9,11 +9,12 @@ assemblyMergeStrategy in assembly := {
   case "about.html" => MergeStrategy.rename
   case "git.properties" => MergeStrategy.discard
   case x =>
-    val oldStrategy = (assemblyMergeStrategy in assembly).value
+    val oldStrategy = (assembly / assemblyMergeStrategy).value
     oldStrategy(x)
 }
 
 val artifactory = "https://cognite.jfrog.io/cognite/"
+credentials += Credentials(Path.userHome / ".sbt" / ".credentials")
 
 resolvers += "libs-release" at artifactory + "libs-release/"
 publishTo := {
@@ -43,4 +44,4 @@ lazy val root = (project in file("."))
   )
 
 // Don't include Scala in the assembly, we should use the version included in Spark instead
-assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false)
+assembly / assemblyOption := (assembly / assemblyOption).value.copy(includeScala = false)

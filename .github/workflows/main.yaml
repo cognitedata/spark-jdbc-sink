@@ -18,8 +18,6 @@ jobs:
           ./secrets/decrypt.sh secrets/credentials.gpg ~/.sbt/.credentials
           sbt package
       - name: Deploy JAR to Artifcatory
-        env:
-          SECRETS_KEY: ${{ secrets.SECRETS_KEY }}
         if: github.ref == 'refs/heads/master'
         run: |
           sbt publish

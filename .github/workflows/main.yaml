@@ -10,8 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: olafurpg/setup-scala@v13
-      - name: Build JAR file
-        run: sbt package
-      - name: Deploy JAR
+      - name: Set up credentials and build JAR file
+        env:
+          SECRETS_KEY: ${{ secrets.SECRETS_KEY }}
+        run: |
+          mkdir -p ~/.sbt/1.0
+          ./secrets/decrypt.sh secrets/credentials.gpg ~/.sbt/.credentials
+          sbt package
+      - name: Deploy JAR to Artifcatory
         if: github.ref == 'refs/heads/master'
-        run: sbt publish
+        run: |
+          sbt publish

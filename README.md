@@ -1,3 +1,7 @@
+# Disclaimer
+
+This repository has been archived and will no longer be maintained or updated.
+
 # spark-jdbc-sink
 
 A Spark metrics sink that uses the JDBC reporter from
